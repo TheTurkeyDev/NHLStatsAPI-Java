@@ -2,7 +2,7 @@ package com.theprogrammingturkey.nhlapi;
 
 import java.util.List;
 
-import com.theprogrammingturkey.nhlapi.criteria.GameSerchCriteria;
+import com.theprogrammingturkey.nhlapi.criteria.SerchCriteria;
 import com.theprogrammingturkey.nhlapi.data.GameData;
 import com.theprogrammingturkey.nhlapi.data.PlayData;
 import com.theprogrammingturkey.nhlapi.managers.GameManager;
@@ -12,7 +12,7 @@ public class Test
 
 	public static void main(String[] args)
 	{
-		GameSerchCriteria criteria = new GameSerchCriteria();
+		SerchCriteria criteria = new SerchCriteria();
 		criteria.setStartDate("20178-02-02");
 		criteria.setEndDate("2018-02-07");
 		criteria.setTeamId(29);

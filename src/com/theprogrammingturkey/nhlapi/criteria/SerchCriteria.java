@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.theprogrammingturkey.nhlapi.NHLAPI;
 
-public class GameSerchCriteria
+public class SerchCriteria
 {
 	private Map<String, String> params = new HashMap<>();
 
@@ -33,6 +33,33 @@ public class GameSerchCriteria
 	public void setTeamId(int id)
 	{
 		params.put("teamId", "" + id);
+	}
+	
+	/**
+	 * 
+	 * @param season Format Y1Y1Y1Y1Y2Y2Y2Y2 ex: 20172018
+	 */
+	public void setSeason(String season)
+	{
+		params.put("season", season);
+	}
+	
+	/**
+	 * Valid params. Any number/ combination of these can be used.
+	 * schedule.teams
+	 * schedule.linescore
+	 * schedule.broadcasts
+	 * schedule.ticket
+	 * schedule.game.content.media.epg
+	 * @param param
+	 */
+	public void addExpands(String param)
+	{
+		String base = params.get("expand");
+		if(base == null)
+			base = "";
+		base += "," + param;
+		params.put("expand", base);
 	}
 
 	public String toURLParams()

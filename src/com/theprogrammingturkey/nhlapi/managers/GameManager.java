@@ -9,7 +9,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.theprogrammingturkey.nhlapi.NHLAPI;
-import com.theprogrammingturkey.nhlapi.criteria.GameSerchCriteria;
+import com.theprogrammingturkey.nhlapi.criteria.SerchCriteria;
 import com.theprogrammingturkey.nhlapi.data.GameData;
 import com.theprogrammingturkey.nhlapi.data.PlayData;
 import com.theprogrammingturkey.nhlapi.data.PlayerData;
@@ -18,7 +18,7 @@ import com.theprogrammingturkey.nhlapi.util.WebHelper;
 public class GameManager extends BaseManager
 {
 
-	public static List<GameData> getGames(GameSerchCriteria criteria)
+	public static List<GameData> getGames(SerchCriteria criteria)
 	{
 		JsonObject json;
 		try
