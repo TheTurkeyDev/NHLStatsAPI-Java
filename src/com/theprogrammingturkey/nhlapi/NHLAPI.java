@@ -2,6 +2,9 @@ package com.theprogrammingturkey.nhlapi;
 
 import java.text.SimpleDateFormat;
 
+import com.theprogrammingturkey.nhlapi.managers.PlayerManager;
+import com.theprogrammingturkey.nhlapi.managers.TeamManager;
+
 public class NHLAPI
 {
 	public static final String BASE_URL = "https://statsapi.web.nhl.com/api/v1";
@@ -10,6 +13,7 @@ public class NHLAPI
 	public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("YYYY-MM-DD'T'HH:mm:ss'Z'");
 
 	/**
+	 * @formatter:off
 	 * https://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-10-02&endDate=2018-02-05&teamId=29
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/feed/live
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/content
@@ -40,6 +44,12 @@ public class NHLAPI
      *    02     = game type code; 1 = preseason, 2 = regular season; 3 = playoffs
      *    0807   = game ID; generally 1-1230 in a normal regular season, but sometimes games will be missing (e.g., games cancelled due to weather) and sometimes games will be added on the end, starting with 1231 (e.g., make-up games for weather-cancelled games). Numbers are usually approx. 1-130ish in the pre-season, but it can be arbitrary.
 	 *
-	 *
+	 *@formatter:on
 	 */
+
+	public static void clearCache()
+	{
+		PlayerManager.clearCache();
+		TeamManager.clearCache();
+	}
 }

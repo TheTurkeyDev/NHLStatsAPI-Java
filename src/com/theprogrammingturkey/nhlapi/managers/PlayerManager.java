@@ -63,4 +63,9 @@ public class PlayerManager extends BaseManager
 	{
 		return cache.get(id);
 	}
+
+	public static void clearCache()
+	{
+		cache.clear();
+	}
 }
