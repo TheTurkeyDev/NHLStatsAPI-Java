@@ -17,8 +17,8 @@ public class GameData
 	public TeamData awayTeam;
 	public List<PlayerData> players;
 	public List<PlayData> plays;
-	public int[] scoringPlays;
-	public int[] penaltyPlays;
-	public List<int[]> playsByPeriod;
+	public List<PlayData> scoringPlays;
+	public List<PlayData> penaltyPlays;
+	public List<List<PlayData>> playsByPeriod;
 	public PlayData currentPlay;
 }

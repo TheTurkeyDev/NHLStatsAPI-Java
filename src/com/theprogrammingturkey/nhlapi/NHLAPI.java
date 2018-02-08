@@ -14,11 +14,11 @@ public class NHLAPI
 
 	/**
 	 * @formatter:off
-	 * https://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-10-02&endDate=2018-02-05&teamId=29
+	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-10-02&endDate=2018-02-05&teamId=29
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/feed/live
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/content
-	 * https://statsapi.web.nhl.com/api/v1/standings?season=20152016
-	 * https://statsapi.web.nhl.com/api/v1/schedule?startDate=2016-01-31&endDate=2016-02-05&expand=schedule.teams,schedule.linescore,schedule.broadcasts,schedule.ticket,schedule.game.content.media.epg&leaderCategories=&site=en_nhl&teamId=29
+	 * http://statsapi.web.nhl.com/api/v1/standings?season=20152016
+	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2016-01-31&endDate=2016-02-05&expand=schedule.teams,schedule.linescore,schedule.broadcasts,schedule.ticket,schedule.game.content.media.epg&leaderCategories=&site=en_nhl&teamId=29
 	 * http://statsapi.web.nhl.com/api/v1/teams
 	 * http://statsapi.web.nhl.com/api/v1/teams/29?expand=team.schedule.next
 	 * http://statsapi.web.nhl.com/api/v1/teams/29/roster?expand=roster.person,person.names

@@ -99,29 +99,40 @@ public class GameManager extends BaseManager
 		data.plays = playsList;
 
 		JsonArray scoringPlaysArray = plays.get("scoringPlays").getAsJsonArray();
-		int[] scoringPlays = new int[scoringPlaysArray.size()];
+		List<PlayData> scoringPlays = new ArrayList<>();
 		for(int i = 0; i < scoringPlaysArray.size(); i++)
 		{
-			scoringPlays[i] = scoringPlaysArray.get(i).getAsInt();
+			scoringPlays.add(playsList.get(scoringPlaysArray.get(i).getAsInt()));
 		}
 		data.scoringPlays = scoringPlays;
 
 		JsonArray penaltyPlaysArray = plays.get("penaltyPlays").getAsJsonArray();
-		int[] penaltyPlays = new int[penaltyPlaysArray.size()];
+		List<PlayData> penaltyPlays = new ArrayList<>();
 		for(int i = 0; i < penaltyPlaysArray.size(); i++)
 		{
-			penaltyPlays[i] = penaltyPlaysArray.get(i).getAsInt();
+			penaltyPlays.add(playsList.get(penaltyPlaysArray.get(i).getAsInt()));
 		}
 		data.penaltyPlays = penaltyPlays;
 
-		// TODO: Plays by period
+		JsonArray periodPlaysArray = plays.get("playsByPeriod").getAsJsonArray();
+		List<List<PlayData>> playsByPeriod = new ArrayList<>();
+		for(JsonElement periodElem : periodPlaysArray)
+		{
+			List<PlayData> periodPlays = new ArrayList<>();
+			for(JsonElement playIndexes : periodElem.getAsJsonObject().get("plays").getAsJsonArray())
+			{
+				periodPlays.add(playsList.get(playIndexes.getAsInt()));
+			}
+			playsByPeriod.add(periodPlays);
+		}
+		data.playsByPeriod = playsByPeriod;
 
 		data.currentPlay = PlayManager.getPlayDataFromJSON(plays.get("currentPlay").getAsJsonObject());
 
-		//TODO Line Score
-		//TODO Box Score
-		//TODO Decisions
-		
+		// TODO Line Score
+		// TODO Box Score
+		// TODO Decisions
+
 		return data;
 	}
 }
