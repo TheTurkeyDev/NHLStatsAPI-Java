@@ -22,9 +22,8 @@ public class Test
 		for(GameData game : games)
 		{
 			boolean home = game.homeTeam.id == 29;
-			for(int playIndex : game.scoringPlays)
+			for(PlayData play : game.scoringPlays)
 			{
-				PlayData play = game.plays.get(playIndex);
 				if((home && play.homeScore == 1 && play.awayScore == 2) || (!home && play.homeScore == 2 && play.awayScore == 1))
 				{
 					System.out.println("Down 2-1!");
