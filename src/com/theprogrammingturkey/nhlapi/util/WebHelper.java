@@ -1,6 +1,6 @@
 package com.theprogrammingturkey.nhlapi.util;
 
-import java.io.BufferedInputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -22,7 +22,6 @@ public class WebHelper
 		((HttpURLConnection) con).setRequestMethod("GET");
 		con.setConnectTimeout(5000);
 
-		BufferedInputStream in = new BufferedInputStream(con.getInputStream());
 		int responseCode = con.getResponseCode();
 
 		if(responseCode != HttpURLConnection.HTTP_OK && responseCode != HttpURLConnection.HTTP_MOVED_PERM)
@@ -30,16 +29,6 @@ public class WebHelper
 		else if(responseCode == HttpURLConnection.HTTP_MOVED_PERM)
 			throw new Exception();
 
-		StringBuilder buffer = new StringBuilder();
-		int chars_read;
-		while((chars_read = in.read()) != -1)
-			buffer.append((char) chars_read);
-
-		return PARSER.parse(buffer.toString()).getAsJsonObject();
-	}
-
-	public enum RequestType
-	{
-		GET, POST, PUT, DELETE, UPDATE, PATCH;
+		return PARSER.parse(new InputStreamReader(con.getInputStream())).getAsJsonObject();
 	}
 }

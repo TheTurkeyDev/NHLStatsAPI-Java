@@ -15,6 +15,9 @@ public class PlayManager extends BaseManager
 	{
 		PlayData data = new PlayData();
 
+		if(json == null)
+			return data;
+
 		if(json.has("team"))
 			data.team = TeamManager.getTeamFromID(json.get("team").getAsJsonObject().get("id").getAsInt());
 

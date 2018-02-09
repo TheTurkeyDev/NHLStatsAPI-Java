@@ -21,4 +21,11 @@ public class GameData
 	public List<PlayData> penaltyPlays;
 	public List<List<PlayData>> playsByPeriod;
 	public PlayData currentPlay;
+	public BoxScoreData homeBoxScore;
+	public BoxScoreData awayBoxScore;
+
+	public boolean homeTeamWon()
+	{
+		return this.homeBoxScore.teamGameStats.goals > this.awayBoxScore.teamGameStats.goals;
+	}
 }

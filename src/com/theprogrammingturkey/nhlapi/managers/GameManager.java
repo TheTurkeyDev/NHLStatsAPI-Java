@@ -62,8 +62,9 @@ public class GameManager extends BaseManager
 		JsonObject date = gameData.get("datetime").getAsJsonObject();
 		try
 		{
-			data.date = NHLAPI.DATE_TIME_FORMAT.parse(getStringSafe(date, "dateTime"));
-			data.endDate = NHLAPI.DATE_TIME_FORMAT.parse(getStringSafe(date, "endDateTime"));
+			String dateString = getStringSafe(date, "dateTime");
+			data.date = NHLAPI.DATE_TIME_FORMAT.parse(dateString);
+			data.endDate = NHLAPI.DATE_TIME_FORMAT.parse(getStringSafe(date, "endDateTime", dateString));
 		} catch(ParseException e)
 		{
 			e.printStackTrace();
@@ -127,10 +128,15 @@ public class GameManager extends BaseManager
 		}
 		data.playsByPeriod = playsByPeriod;
 
-		data.currentPlay = PlayManager.getPlayDataFromJSON(plays.get("currentPlay").getAsJsonObject());
+		data.currentPlay = PlayManager.getPlayDataFromJSON(getJsonObjectSafe(plays, "currentPlay", null));
 
 		// TODO Line Score
-		// TODO Box Score
+
+		JsonObject teamBoxScores = liveData.get("boxscore").getAsJsonObject().get("teams").getAsJsonObject();
+		data.homeBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("home").getAsJsonObject());
+		data.awayBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("away").getAsJsonObject());
+
+		// TODO Officials
 		// TODO Decisions
 
 		return data;

@@ -29,6 +29,18 @@ public class BaseManager
 		return defaultValue;
 	}
 
+	public static double getDoubleSafe(JsonObject json, String key)
+	{
+		return getDoubleSafe(json, key, -1);
+	}
+
+	public static double getDoubleSafe(JsonObject json, String key, double defaultValue)
+	{
+		if(json.has(key))
+			return json.get(key).getAsInt();
+		return defaultValue;
+	}
+
 	public static boolean getBooleanSafe(JsonObject json, String key)
 	{
 		return getBooleanSafe(json, key, false);
@@ -38,6 +50,18 @@ public class BaseManager
 	{
 		if(json.has(key))
 			return json.get(key).getAsBoolean();
+		return defaultValue;
+	}
+
+	public static JsonObject getJsonObjectSafe(JsonObject json, String key)
+	{
+		return getJsonObjectSafe(json, key, new JsonObject());
+	}
+
+	public static JsonObject getJsonObjectSafe(JsonObject json, String key, JsonObject defaultValue)
+	{
+		if(json.has(key))
+			return json.get(key).getAsJsonObject();
 		return defaultValue;
 	}
 }
