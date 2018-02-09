@@ -12,6 +12,11 @@ public class Test
 
 	public static void main(String[] args)
 	{
+		testDownTwoOne();
+	}
+
+	public static void testDownTwoOne()
+	{
 		SerchCriteria criteria = new SerchCriteria();
 		criteria.setStartDate("2017-10-02");
 		criteria.setEndDate("2018-02-07");
@@ -65,5 +70,10 @@ public class Test
 
 		System.out.println(total);
 		System.out.println(wins + "-" + losses + " when down 2-1.");
+	}
+
+	public static void testShotPercentage()
+	{
+
 	}
 }
