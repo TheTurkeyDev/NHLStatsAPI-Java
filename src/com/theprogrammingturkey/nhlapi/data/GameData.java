@@ -28,4 +28,9 @@ public class GameData
 	{
 		return this.homeBoxScore.teamGameStats.goals > this.awayBoxScore.teamGameStats.goals;
 	}
+
+	public String getFinalScore()
+	{
+		return this.homeBoxScore.teamGameStats.goals + " - " + this.awayBoxScore.teamGameStats.goals;
+	}
 }

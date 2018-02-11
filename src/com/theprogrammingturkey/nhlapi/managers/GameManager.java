@@ -76,7 +76,7 @@ public class GameManager extends BaseManager
 
 		JsonObject teams = gameData.get("teams").getAsJsonObject();
 		data.homeTeam = TeamManager.getTeamDataFromJSON(teams.get("home").getAsJsonObject());
-		data.homeTeam = TeamManager.getTeamDataFromJSON(teams.get("away").getAsJsonObject());
+		data.awayTeam = TeamManager.getTeamDataFromJSON(teams.get("away").getAsJsonObject());
 
 		JsonObject playersObj = gameData.get("players").getAsJsonObject();
 		List<PlayerData> players = new ArrayList<>();

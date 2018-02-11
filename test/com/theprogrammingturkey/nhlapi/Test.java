@@ -40,16 +40,21 @@ public class Test
 					break;
 				}
 
-				System.out.println(play.homeScore + "-" + play.awayScore + "  " + home);
 				if(home)
 				{
 					if(play.homeScore == 1 && play.awayScore == 2)
 					{
 						total++;
 						if(!game.homeTeamWon())
+						{
+							System.out.println(game.gameID + " L " + game.getFinalScore());
 							losses++;
+						}
 						else
+						{
+							System.out.println(game.gameID + " W " + game.getFinalScore());
 							wins++;
+						}
 						break;
 					}
 				}
@@ -59,9 +64,15 @@ public class Test
 					{
 						total++;
 						if(game.homeTeamWon())
+						{
+							System.out.println(game.gameID + " L " + game.getFinalScore());
 							losses++;
+						}
 						else
+						{
+							System.out.println(game.gameID + " W " + game.getFinalScore());
 							wins++;
+						}
 						break;
 					}
 				}
