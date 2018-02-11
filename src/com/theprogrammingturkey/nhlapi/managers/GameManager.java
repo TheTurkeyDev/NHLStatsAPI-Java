@@ -130,11 +130,17 @@ public class GameManager extends BaseManager
 
 		data.currentPlay = PlayManager.getPlayDataFromJSON(getJsonObjectSafe(plays, "currentPlay", null));
 
-		// TODO Line Score
+		JsonObject lineScore = liveData.get("linescore").getAsJsonObject();
+		data.currentPeriod = getIntSafe(lineScore, "currentPeriod");
+		data.currentPeriodOrdinal = getStringSafe(lineScore, "currentPeriodOrdinal");
+		data.currentPeriodTimeRemaining = getStringSafe(lineScore, "currentPeriodTimeRemaining");
+		data.powerPlayStrength = getStringSafe(lineScore, "powerPlayStrength");
+		data.hasShootout = getBooleanSafe(lineScore, "hasShootout");
 
 		JsonObject teamBoxScores = liveData.get("boxscore").getAsJsonObject().get("teams").getAsJsonObject();
-		data.homeBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("home").getAsJsonObject());
-		data.awayBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("away").getAsJsonObject());
+		JsonObject teamLineScores = lineScore.get("teams").getAsJsonObject();
+		data.homeBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("home").getAsJsonObject(), teamLineScores.get("home").getAsJsonObject());
+		data.awayBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("away").getAsJsonObject(), teamLineScores.get("away").getAsJsonObject());
 
 		// TODO Officials
 		// TODO Decisions

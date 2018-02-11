@@ -23,6 +23,15 @@ public class GameData
 	public PlayData currentPlay;
 	public BoxScoreData homeBoxScore;
 	public BoxScoreData awayBoxScore;
+	public int currentPeriod;
+	public String currentPeriodOrdinal;
+	public String currentPeriodTimeRemaining;
+	public String powerPlayStrength;
+	public boolean hasShootout;
+	// TODO Period Info
+	// TODO Shootout Info
+	// TODO Powerplay Info
+	// TODO Intermission Info
 
 	public boolean homeTeamWon()
 	{

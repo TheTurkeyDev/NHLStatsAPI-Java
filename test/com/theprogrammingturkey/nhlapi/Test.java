@@ -19,14 +19,13 @@ public class Test
 	{
 		SerchCriteria criteria = new SerchCriteria();
 		criteria.setStartDate("2017-10-02");
-		criteria.setEndDate("2018-02-07");
+		criteria.setEndDate("2018-02-11");
 		criteria.setTeamId(29);
 
 		System.out.println("Collecting game data...");
 		List<GameData> games = GameManager.getGames(criteria);
 		System.out.println("Parsing game data...");
 
-		int total = 0;
 		int wins = 0;
 		int losses = 0;
 
@@ -44,17 +43,10 @@ public class Test
 				{
 					if(play.homeScore == 1 && play.awayScore == 2)
 					{
-						total++;
 						if(!game.homeTeamWon())
-						{
-							System.out.println(game.gameID + " L " + game.getFinalScore());
 							losses++;
-						}
 						else
-						{
-							System.out.println(game.gameID + " W " + game.getFinalScore());
 							wins++;
-						}
 						break;
 					}
 				}
@@ -62,24 +54,16 @@ public class Test
 				{
 					if(play.homeScore == 2 && play.awayScore == 1)
 					{
-						total++;
 						if(game.homeTeamWon())
-						{
-							System.out.println(game.gameID + " L " + game.getFinalScore());
 							losses++;
-						}
 						else
-						{
-							System.out.println(game.gameID + " W " + game.getFinalScore());
 							wins++;
-						}
 						break;
 					}
 				}
 			}
 		}
 
-		System.out.println(total);
 		System.out.println(wins + "-" + losses + " when down 2-1.");
 	}
 

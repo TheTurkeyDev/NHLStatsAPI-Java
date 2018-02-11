@@ -13,5 +13,7 @@ public class TeamStatData
 	public int takeaways;
 	public int giveaways;
 	public int hits;
-	
+	public boolean goaliePulled;
+	public boolean powerPlay;
+	public int numSkaters;
 }
