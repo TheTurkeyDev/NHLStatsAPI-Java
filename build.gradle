@@ -1,0 +1,39 @@
+apply plugin: "java"
+apply plugin: "maven-publish"
+apply plugin: "eclipse"
+
+ext.buildnumber = 0
+if (System.getenv('BUILD_NUMBER') != null)
+    project.buildnumber = System.getenv('BUILD_NUMBER')
+else
+    logger.lifecycle "No build number detected, setting to 0"
+
+version= "${proj_version}.${buildnumber}"
+group= "com.theprogrammingturkey.nhlapi"
+archivesBaseName= "NHLAPI-Java"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.code.gson:gson:2.8.2'
+}
+
+publishing {
+       publications {
+        mavenJava(MavenPublication) {
+        	artifactId 'NHLAPI-Java'
+            from components.java
+        }
+    }
+
+    repositories {
+        if (project.hasProperty('mavendir')) {
+            maven { url mavendir }
+        }
+        else{
+        	logger.error('Failed to find maven directory')
+        }
+    }
+}
