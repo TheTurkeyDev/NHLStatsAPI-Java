@@ -12,6 +12,8 @@ public class NHLAPI
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY-MM-DD");
 	public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("YYYY-MM-DD'T'HH:mm:ss'Z'");
 
+	public static boolean DEBUG = false;
+
 	/**
 	 * @formatter:off
 	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-10-02&endDate=2018-02-05&teamId=29
@@ -20,7 +22,7 @@ public class NHLAPI
 	 * http://statsapi.web.nhl.com/api/v1/standings?season=20152016
 	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2016-01-31&endDate=2016-02-05&expand=schedule.teams,schedule.linescore,schedule.broadcasts,schedule.ticket,schedule.game.content.media.epg&leaderCategories=&site=en_nhl&teamId=29
 	 * http://statsapi.web.nhl.com/api/v1/teams
-	 * http://statsapi.web.nhl.com/api/v1/teams/29?expand=team.schedule.next
+	 * http://statsapi.web.nhl.com/api/v1/teams/29?expand=team.schedule.next,team.stats
 	 * http://statsapi.web.nhl.com/api/v1/teams/29/roster?expand=roster.person,person.names
 	 * http://statsapi.web.nhl.com/api/v1/divisions
 	 * http://statsapi.web.nhl.com/api/v1/divisions/18
@@ -51,5 +53,11 @@ public class NHLAPI
 	{
 		PlayerManager.clearCache();
 		TeamManager.clearCache();
+	}
+
+	public static void log(String message)
+	{
+		if(DEBUG)
+			System.out.println(message);
 	}
 }

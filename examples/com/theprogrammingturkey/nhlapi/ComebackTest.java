@@ -7,7 +7,7 @@ import com.theprogrammingturkey.nhlapi.data.GameData;
 import com.theprogrammingturkey.nhlapi.data.PlayData;
 import com.theprogrammingturkey.nhlapi.managers.GameManager;
 
-public class Test
+public class ComebackTest
 {
 
 	public static void main(String[] args)
@@ -65,10 +65,5 @@ public class Test
 		}
 
 		System.out.println(wins + "-" + losses + " when down 2-1.");
-	}
-
-	public static void testShotPercentage()
-	{
-
 	}
 }

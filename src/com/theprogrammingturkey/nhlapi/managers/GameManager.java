@@ -17,9 +17,9 @@ import com.theprogrammingturkey.nhlapi.util.WebHelper;
 
 public class GameManager extends BaseManager
 {
-
 	public static List<GameData> getGames(SerchCriteria criteria)
 	{
+		NHLAPI.log("Getting games from api...");
 		JsonObject json;
 		try
 		{
@@ -29,13 +29,18 @@ public class GameManager extends BaseManager
 			e.printStackTrace();
 			return new ArrayList<GameData>();
 		}
+		NHLAPI.log("Parsing data from API...");
 		List<GameData> games = new ArrayList<GameData>();
 
+		int index = 0;
+		int total = json.get("totalGames").getAsInt();
 		for(JsonElement datesElement : json.get("dates").getAsJsonArray())
 		{
 			for(JsonElement gamesElement : datesElement.getAsJsonObject().get("games").getAsJsonArray())
 			{
+				index++;
 				String gameID = gamesElement.getAsJsonObject().get("gamePk").getAsString();
+				NHLAPI.log("Getting game data " + index + "/" + total);
 				try
 				{
 					games.add(getGameDataFromJson(WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live")));
@@ -84,7 +89,6 @@ public class GameManager extends BaseManager
 		{
 			PlayerManager.getPlayerDataFromJSON(player.getValue().getAsJsonObject());
 		}
-
 		data.players = players;
 
 		data.gameVenue = getStringSafe(gameData.get("venue").getAsJsonObject(), "name");
@@ -99,19 +103,17 @@ public class GameManager extends BaseManager
 		}
 		data.plays = playsList;
 
-		JsonArray scoringPlaysArray = plays.get("scoringPlays").getAsJsonArray();
 		List<PlayData> scoringPlays = new ArrayList<>();
-		for(int i = 0; i < scoringPlaysArray.size(); i++)
+		for(JsonElement scoringElem : plays.get("scoringPlays").getAsJsonArray())
 		{
-			scoringPlays.add(playsList.get(scoringPlaysArray.get(i).getAsInt()));
+			scoringPlays.add(playsList.get(scoringElem.getAsInt()));
 		}
 		data.scoringPlays = scoringPlays;
 
-		JsonArray penaltyPlaysArray = plays.get("penaltyPlays").getAsJsonArray();
 		List<PlayData> penaltyPlays = new ArrayList<>();
-		for(int i = 0; i < penaltyPlaysArray.size(); i++)
+		for(JsonElement scoringElem : plays.get("penaltyPlays").getAsJsonArray())
 		{
-			penaltyPlays.add(playsList.get(penaltyPlaysArray.get(i).getAsInt()));
+			penaltyPlays.add(playsList.get(scoringElem.getAsInt()));
 		}
 		data.penaltyPlays = penaltyPlays;
 
@@ -139,6 +141,7 @@ public class GameManager extends BaseManager
 
 		JsonObject teamBoxScores = liveData.get("boxscore").getAsJsonObject().get("teams").getAsJsonObject();
 		JsonObject teamLineScores = lineScore.get("teams").getAsJsonObject();
+
 		data.homeBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("home").getAsJsonObject(), teamLineScores.get("home").getAsJsonObject());
 		data.awayBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("away").getAsJsonObject(), teamLineScores.get("away").getAsJsonObject());
 
