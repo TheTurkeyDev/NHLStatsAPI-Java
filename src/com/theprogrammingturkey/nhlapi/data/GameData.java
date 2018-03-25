@@ -14,7 +14,9 @@ public class GameData
 	public boolean startTimeTBD;
 	public String gameVenue;
 	public TeamData homeTeam;
+	public TeamRecordData homeRecord;
 	public TeamData awayTeam;
+	public TeamRecordData awayRecord;
 	public List<PlayerData> players;
 	public List<PlayData> plays;
 	public List<PlayData> scoringPlays;

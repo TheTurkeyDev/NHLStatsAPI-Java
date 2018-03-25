@@ -23,6 +23,7 @@ public class GameManager extends BaseManager
 		JsonObject json;
 		try
 		{
+			NHLAPI.log("URL: " + "https://statsapi.web.nhl.com/api/v1/schedule" + criteria.toURLParams());
 			json = WebHelper.makeRequest("https://statsapi.web.nhl.com/api/v1/schedule" + criteria.toURLParams());
 		} catch(Exception e)
 		{
@@ -43,7 +44,7 @@ public class GameManager extends BaseManager
 				NHLAPI.log("Getting game data " + index + "/" + total);
 				try
 				{
-					games.add(getGameDataFromJson(WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live")));
+					games.add(getGameDataFromJson(gamesElement.getAsJsonObject(), WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live")));
 				} catch(Exception e)
 				{
 					e.printStackTrace();
@@ -54,7 +55,7 @@ public class GameManager extends BaseManager
 		return games;
 	}
 
-	private static GameData getGameDataFromJson(JsonObject json)
+	private static GameData getGameDataFromJson(JsonObject scheduleJson, JsonObject json)
 	{
 		GameData data = new GameData();
 
@@ -81,7 +82,9 @@ public class GameManager extends BaseManager
 
 		JsonObject teams = gameData.get("teams").getAsJsonObject();
 		data.homeTeam = TeamManager.getTeamDataFromJSON(teams.get("home").getAsJsonObject());
+		data.homeRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.get("teams").getAsJsonObject().get("home").getAsJsonObject().get("leagueRecord").getAsJsonObject());
 		data.awayTeam = TeamManager.getTeamDataFromJSON(teams.get("away").getAsJsonObject());
+		data.awayRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.get("teams").getAsJsonObject().get("away").getAsJsonObject().get("leagueRecord").getAsJsonObject());
 
 		JsonObject playersObj = gameData.get("players").getAsJsonObject();
 		List<PlayerData> players = new ArrayList<>();
@@ -91,7 +94,7 @@ public class GameManager extends BaseManager
 		}
 		data.players = players;
 
-		data.gameVenue = getStringSafe(gameData.get("venue").getAsJsonObject(), "name");
+		data.gameVenue = getStringSafe(getJsonObjectSafe(gameData, "venue"), "name");
 
 		JsonObject liveData = json.get("liveData").getAsJsonObject();
 		JsonObject plays = liveData.get("plays").getAsJsonObject();

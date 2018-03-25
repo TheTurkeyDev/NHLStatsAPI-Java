@@ -19,21 +19,21 @@ public class TeamManager extends BaseManager
 		TeamData team = new TeamData();
 
 		team.id = id;
-		team.name = json.get("name").getAsString();
-		team.teamName = json.get("name").getAsString();
-		team.abbreviation = json.get("abbreviation").getAsString();
-		team.triCode = json.get("teamName").getAsString();
-		team.location = json.get("locationName").getAsString();
-		team.firstYearOfPlay = json.get("firstYearOfPlay").getAsString();
-		team.divisionName = json.get("division").getAsJsonObject().get("name").getAsString();
-		team.divisionID = json.get("division").getAsJsonObject().get("id").getAsInt();
-		team.conferenceName = json.get("conference").getAsJsonObject().get("name").getAsString();
-		team.conferenceID = json.get("conference").getAsJsonObject().get("id").getAsInt();
-		team.franchiseName = json.get("franchise").getAsJsonObject().get("teamName").getAsString();
-		team.franchiseID = json.get("franchise").getAsJsonObject().get("franchiseId").getAsInt();
-		team.shortName = json.get("shortName").getAsString();
-		team.website = json.get("officialSiteUrl").getAsString();
-		team.active = json.get("active").getAsBoolean();
+		team.name = getStringSafe(json, "name");
+		team.teamName = getStringSafe(json, "name");
+		team.abbreviation = getStringSafe(json, "abbreviation");
+		team.triCode = getStringSafe(json, "teamName");
+		team.location = getStringSafe(json, "locationName");
+		team.firstYearOfPlay = getStringSafe(json, "firstYearOfPlay");
+		team.divisionName = getStringSafe(getJsonObjectSafe(json, "division"), "name");
+		team.divisionID = getIntSafe(getJsonObjectSafe(json, "division"), "id");
+		team.conferenceName = getStringSafe(getJsonObjectSafe(json, "conference"), "name");
+		team.conferenceID = getIntSafe(getJsonObjectSafe(json, "conference"), "id");
+		team.franchiseName = getStringSafe(getJsonObjectSafe(json, "franchise"), "teamName");
+		team.franchiseID = getIntSafe(getJsonObjectSafe(json, "franchise"), "franchiseId");
+		team.shortName = getStringSafe(json, "shortName");
+		team.website = getStringSafe(json, "officialSiteUrl");
+		team.active = getBooleanSafe(json, "active");
 		team.venue = VenueManager.getVenueDataFromJSON(json.get("venue").getAsJsonObject());
 
 		cache.put(id, team);

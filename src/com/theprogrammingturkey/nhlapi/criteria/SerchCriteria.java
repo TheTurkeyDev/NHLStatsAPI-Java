@@ -44,6 +44,26 @@ public class SerchCriteria
 	{
 		params.put("season", season);
 	}
+	
+	/**
+	 * 
+	 * @param season
+	 *            Format Y1Y1Y1Y1Y2Y2Y2Y2 ex: 20172018
+	 */
+	public void setSeasonFrom(String season)
+	{
+		params.put("seasonFrom", season);
+	}
+	
+	/**
+	 * 
+	 * @param season
+	 *            Format Y1Y1Y1Y1Y2Y2Y2Y2 ex: 20172018
+	 */
+	public void setSeasonTo(String season)
+	{
+		params.put("seasonTo", season);
+	}
 
 	/**
 	 * 

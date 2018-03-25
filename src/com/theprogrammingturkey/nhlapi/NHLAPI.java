@@ -20,7 +20,7 @@ public class NHLAPI
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/feed/live
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/content
 	 * http://statsapi.web.nhl.com/api/v1/standings?season=20152016
-	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2016-01-31&endDate=2016-02-05&expand=schedule.teams,schedule.linescore,schedule.broadcasts,schedule.ticket,schedule.game.content.media.epg&leaderCategories=&site=en_nhl&teamId=29
+	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2016-01-31&endDate=2016-02-05&expand=schedule.teams,schedule.linescore,schedule.broadcasts.all,schedule.ticket,schedule.game.content.media.epg,schedule.radioBroadcasts,schedule.metadata,schedule.game.seriesSummary,seriesSummary.series&leaderCategories=&leaderGameTypes=R&site=en_nhl&teamId=29&gameType=&timecode=
 	 * http://statsapi.web.nhl.com/api/v1/teams
 	 * http://statsapi.web.nhl.com/api/v1/teams/29?expand=team.schedule.next,team.stats
 	 * http://statsapi.web.nhl.com/api/v1/teams/29/roster?expand=roster.person,person.names
@@ -44,7 +44,7 @@ public class NHLAPI
 	 *2015020807 = game code, change this to access different games
 	 *2015       = season code, first year of the season (e.g., 2015 is for the 2015-16 seasons)
      *    02     = game type code; 1 = preseason, 2 = regular season; 3 = playoffs
-     *    0807   = game ID; generally 1-1230 in a normal regular season, but sometimes games will be missing (e.g., games cancelled due to weather) and sometimes games will be added on the end, starting with 1231 (e.g., make-up games for weather-cancelled games). Numbers are usually approx. 1-130ish in the pre-season, but it can be arbitrary.
+     *      0807 = game ID; generally 1-1230 in a normal regular season, but sometimes games will be missing (e.g., games cancelled due to weather) and sometimes games will be added on the end, starting with 1231 (e.g., make-up games for weather-cancelled games). Numbers are usually approx. 1-130ish in the pre-season, but it can be arbitrary.
 	 *
 	 *@formatter:on
 	 */

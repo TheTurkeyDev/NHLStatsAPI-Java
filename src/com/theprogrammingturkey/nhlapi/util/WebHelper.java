@@ -15,12 +15,12 @@ public class WebHelper
 	{
 		HttpURLConnection con = (HttpURLConnection) new URL(link).openConnection();
 		con.setDoInput(true);
-		con.setReadTimeout(5000);
+		//con.setReadTimeout(5000);
 		con.setRequestProperty("Connection", "keep-alive");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0");
 
 		((HttpURLConnection) con).setRequestMethod("GET");
-		con.setConnectTimeout(5000);
+		//con.setConnectTimeout(5000);
 
 		int responseCode = con.getResponseCode();
 

@@ -66,7 +66,7 @@ public class PlayerStatManager extends BaseManager
 			}
 
 			playerStat.playerID = json.get("person").getAsJsonObject().get("id").getAsInt();
-			playerStat.jerseyNumber = json.get("jerseyNumber").getAsInt();
+			playerStat.jerseyNumber = getIntSafe(json, "jerseyNumber");
 			playerStat.position = PlayerManager.getPositionDataFromJSON(json.get("position").getAsJsonObject());
 			playerStat.timeOnIce = getStringSafe(statTypeObj, "timeOnIce");
 			playerStat.goals = getIntSafe(statTypeObj, "goals");
