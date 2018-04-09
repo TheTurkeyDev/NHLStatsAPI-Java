@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 public class ImageManager
 {
 	//@formatter:off
+	//TODO: Find better California Golden Seals logo (CSE)
 	private static String[] idToString = { "NJD", "NYI", "NYR", "PHI", "PIT", "BOS", "BUF", 
 			"MTL", "OTT", "TOR", "ATL_19992000-20102011", "CAR", "FLA", "TBL", "WSH", "CHI",
 			"DET", "NSH", "STL", "CGY", "COL", "EDM", "VAN", "ANA", "DAL", "LAK", 
@@ -28,7 +29,8 @@ public class ImageManager
 			"QUA_19301931", "DCG_19261927-19291930", "MWN_19171918", "QBD_19191920", 
 			"MMR_19241925", "NYA_19251926-19291930", "SLE_19341935", "OAK_19671968-19691970",
 			"AFM_19721973-19791980", "KCS_19741975-19751976", "CLE_19761977-19771978", 
-			"DFL_19301931-19311932", "BRK_19411942", "WPG", "ARI", "VGK"};
+			"DFL_19301931-19311932", "BRK_19411942", "WPG", "ARI", "VGK", "" ,
+			"OAK_19671968-19691970"};
 	private static Map<Integer, BufferedImage> imageCache = new HashMap<>();
 	//@formatter:on
 
