@@ -34,7 +34,7 @@ public class TeamManager extends BaseManager
 		team.shortName = getStringSafe(json, "shortName");
 		team.website = getStringSafe(json, "officialSiteUrl");
 		team.active = getBooleanSafe(json, "active");
-		team.venue = VenueManager.getVenueDataFromJSON(json.get("venue").getAsJsonObject());
+		team.venue = VenueManager.getVenueDataFromJSON(getJsonObjectSafe(json, "venue"));
 
 		cache.put(id, team);
 		return team;

@@ -18,6 +18,7 @@ repositories {
 
 dependencies {
     compile 'com.google.code.gson:gson:2.8.2'
+    compile group: 'org.apache.xmlgraphics', name: 'batik-all', version: '1.9.1'
 }
 
 publishing {

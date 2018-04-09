@@ -13,7 +13,6 @@ public class TeamRecordManager extends BaseManager
 		int l = getIntSafe(json, "losses", 0);
 		int ot = getIntSafe(json, "ot", 0);
 		int ties = getIntSafe(json, "ties", 0);
-		System.out.println(w + "-" + l + "-" + ot + "-" + ties + " (" + (w + l + ot + ties) + ")");
 		record.wins = w;
 		record.losses = l;
 		record.ot = ot;

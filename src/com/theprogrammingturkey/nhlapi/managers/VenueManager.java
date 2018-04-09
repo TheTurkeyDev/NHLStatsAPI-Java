@@ -3,16 +3,16 @@ package com.theprogrammingturkey.nhlapi.managers;
 import com.google.gson.JsonObject;
 import com.theprogrammingturkey.nhlapi.data.VenueData;
 
-public class VenueManager
+public class VenueManager extends BaseManager
 {
 	public static VenueData getVenueDataFromJSON(JsonObject json)
 	{
 		VenueData venue = new VenueData();
 
-		venue.name = json.get("name").getAsString();
-		venue.city = json.get("city").getAsString();
-		venue.timezone = json.get("timeZone").getAsJsonObject().get("id").getAsString();
-		venue.timezoneOffset = json.get("timeZone").getAsJsonObject().get("offset").getAsInt();
+		venue.name = getStringSafe(json, "name");
+		venue.city = getStringSafe(json, "city");
+		venue.timezone = getStringSafe(getJsonObjectSafe(json, "timeZone"), "id");
+		venue.timezoneOffset = getIntSafe(getJsonObjectSafe(json, "timeZone"), "offset");
 
 		return venue;
 	}
