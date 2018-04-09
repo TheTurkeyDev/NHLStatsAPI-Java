@@ -30,7 +30,13 @@ public class ImageManager
 			"MMR_19241925", "NYA_19251926-19291930", "SLE_19341935", "OAK_19671968-19691970",
 			"AFM_19721973-19791980", "KCS_19741975-19751976", "CLE_19761977-19771978", 
 			"DFL_19301931-19311932", "BRK_19411942", "WPG", "ARI", "VGK", "" ,
-			"OAK_19671968-19691970"};
+			"OAK_19671968-19691970", "TAN_19171918-19181919", "TSP_19191920-19211922",
+			"", /*CAN*/"", /*CZE*/"", /*FIN*/"", /*GER*/"", /*RUS*/"", /*SVK*/"", /*SWE*/"",
+			/*USA*/"", "", "", "", "", "", "", "", "", "", "", "", "", /*Helsinki*/"",
+			/*Stockholm*/"", "", "", "", "", /*Atlantic*/"", /*Metropolitan*/"", /*Central*/"", 
+			/*Pacific*/"", /*Team Alfredsson*/"", /*Team Chara*/"", /*Team Foligno*/"", 
+			/*Team Toews*/"", /*Team Staal*/"", /*Team Lidstrom*/"", /*All-Stars East*/"", 
+			/*All-Stars West*/"", "", /*Young Stars East*/"", /*Young Stars West*/""};
 	private static Map<Integer, BufferedImage> imageCache = new HashMap<>();
 	//@formatter:on
 
