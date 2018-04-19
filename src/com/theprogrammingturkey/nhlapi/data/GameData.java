@@ -44,4 +44,14 @@ public class GameData
 	{
 		return this.homeBoxScore.teamGameStats.goals + " - " + this.awayBoxScore.teamGameStats.goals;
 	}
+
+	public int getHomeGoals()
+	{
+		return this.homeBoxScore.teamGameStats.goals;
+	}
+	
+	public int getAwayGoals()
+	{
+		return this.awayBoxScore.teamGameStats.goals;
+	}
 }

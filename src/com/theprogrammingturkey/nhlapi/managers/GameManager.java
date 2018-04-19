@@ -17,6 +17,9 @@ import com.theprogrammingturkey.nhlapi.util.WebHelper;
 
 public class GameManager extends BaseManager
 {
+	private static boolean playSaving = true;
+	private static boolean playerStatSaving = true;
+
 	public static List<GameData> getGames(SerchCriteria criteria)
 	{
 		NHLAPI.log("Getting games from api...");
@@ -86,54 +89,61 @@ public class GameManager extends BaseManager
 		data.awayTeam = TeamManager.getTeamDataFromJSON(teams.get("away").getAsJsonObject());
 		data.awayRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.get("teams").getAsJsonObject().get("away").getAsJsonObject().get("leagueRecord").getAsJsonObject());
 
-		JsonObject playersObj = gameData.get("players").getAsJsonObject();
-		List<PlayerData> players = new ArrayList<>();
-		for(Entry<String, JsonElement> player : playersObj.entrySet())
+		if(playerStatSaving)
 		{
-			PlayerManager.getPlayerDataFromJSON(player.getValue().getAsJsonObject());
+			JsonObject playersObj = gameData.get("players").getAsJsonObject();
+			List<PlayerData> players = new ArrayList<>();
+			for(Entry<String, JsonElement> player : playersObj.entrySet())
+			{
+				PlayerManager.getPlayerDataFromJSON(player.getValue().getAsJsonObject());
+			}
+			data.players = players;
 		}
-		data.players = players;
 
 		data.gameVenue = getStringSafe(getJsonObjectSafe(gameData, "venue"), "name");
 
 		JsonObject liveData = json.get("liveData").getAsJsonObject();
+
 		JsonObject plays = liveData.get("plays").getAsJsonObject();
 
-		List<PlayData> playsList = new ArrayList<>();
-		for(JsonElement playElem : plays.get("allPlays").getAsJsonArray())
+		if(playSaving)
 		{
-			playsList.add(PlayManager.getPlayDataFromJSON(playElem.getAsJsonObject()));
-		}
-		data.plays = playsList;
-
-		List<PlayData> scoringPlays = new ArrayList<>();
-		for(JsonElement scoringElem : plays.get("scoringPlays").getAsJsonArray())
-		{
-			scoringPlays.add(playsList.get(scoringElem.getAsInt()));
-		}
-		data.scoringPlays = scoringPlays;
-
-		List<PlayData> penaltyPlays = new ArrayList<>();
-		for(JsonElement scoringElem : plays.get("penaltyPlays").getAsJsonArray())
-		{
-			penaltyPlays.add(playsList.get(scoringElem.getAsInt()));
-		}
-		data.penaltyPlays = penaltyPlays;
-
-		JsonArray periodPlaysArray = plays.get("playsByPeriod").getAsJsonArray();
-		List<List<PlayData>> playsByPeriod = new ArrayList<>();
-		for(JsonElement periodElem : periodPlaysArray)
-		{
-			List<PlayData> periodPlays = new ArrayList<>();
-			for(JsonElement playIndexes : periodElem.getAsJsonObject().get("plays").getAsJsonArray())
+			List<PlayData> playsList = new ArrayList<>();
+			for(JsonElement playElem : plays.get("allPlays").getAsJsonArray())
 			{
-				periodPlays.add(playsList.get(playIndexes.getAsInt()));
+				playsList.add(PlayManager.getPlayDataFromJSON(playElem.getAsJsonObject()));
 			}
-			playsByPeriod.add(periodPlays);
-		}
-		data.playsByPeriod = playsByPeriod;
+			data.plays = playsList;
 
-		data.currentPlay = PlayManager.getPlayDataFromJSON(getJsonObjectSafe(plays, "currentPlay", null));
+			List<PlayData> scoringPlays = new ArrayList<>();
+			for(JsonElement scoringElem : plays.get("scoringPlays").getAsJsonArray())
+			{
+				scoringPlays.add(playsList.get(scoringElem.getAsInt()));
+			}
+			data.scoringPlays = scoringPlays;
+
+			List<PlayData> penaltyPlays = new ArrayList<>();
+			for(JsonElement scoringElem : plays.get("penaltyPlays").getAsJsonArray())
+			{
+				penaltyPlays.add(playsList.get(scoringElem.getAsInt()));
+			}
+			data.penaltyPlays = penaltyPlays;
+
+			JsonArray periodPlaysArray = plays.get("playsByPeriod").getAsJsonArray();
+			List<List<PlayData>> playsByPeriod = new ArrayList<>();
+			for(JsonElement periodElem : periodPlaysArray)
+			{
+				List<PlayData> periodPlays = new ArrayList<>();
+				for(JsonElement playIndexes : periodElem.getAsJsonObject().get("plays").getAsJsonArray())
+				{
+					periodPlays.add(playsList.get(playIndexes.getAsInt()));
+				}
+				playsByPeriod.add(periodPlays);
+			}
+			data.playsByPeriod = playsByPeriod;
+
+			data.currentPlay = PlayManager.getPlayDataFromJSON(getJsonObjectSafe(plays, "currentPlay", null));
+		}
 
 		JsonObject lineScore = liveData.get("linescore").getAsJsonObject();
 		data.currentPeriod = getIntSafe(lineScore, "currentPeriod");
@@ -152,5 +162,25 @@ public class GameManager extends BaseManager
 		// TODO Decisions
 
 		return data;
+	}
+
+	public static void disablePlaySaving()
+	{
+		playSaving = false;
+	}
+
+	public static void enablePlaySaving()
+	{
+		playSaving = true;
+	}
+
+	public static void disablePlayerStatSaving()
+	{
+		playerStatSaving = false;
+	}
+
+	public static void enablePlayerStatSaving()
+	{
+		playerStatSaving = true;
 	}
 }

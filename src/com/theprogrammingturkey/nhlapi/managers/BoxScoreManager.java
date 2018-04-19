@@ -59,7 +59,20 @@ public class BoxScoreManager extends BaseManager
 		for(JsonElement elem : boxScore.get("goalies").getAsJsonArray())
 			goaliesStats.add((GoalieStatData) statsMap.get(elem.getAsInt()));
 		for(JsonElement elem : boxScore.get("skaters").getAsJsonArray())
-			skaterStats.add((SkaterStatData) statsMap.get(elem.getAsInt()));
+		{
+			SkaterStatData skaterdata;
+			if(statsMap.get(elem.getAsInt()) instanceof GoalieStatData)
+			{
+				//TODO: Seems that goalies also get player stats and will be put into the skaters section causing a cast exception
+				//TODO: IDK?????
+				continue;
+			}
+			else
+			{
+				skaterdata = (SkaterStatData) statsMap.get(elem.getAsInt());
+			}
+			skaterStats.add(skaterdata);
+		}
 		for(JsonElement elem : boxScore.get("onIce").getAsJsonArray())
 			onIcePlayers.add(statsMap.get(elem.getAsInt()));
 		for(JsonElement elem : boxScore.get("scratches").getAsJsonArray())
