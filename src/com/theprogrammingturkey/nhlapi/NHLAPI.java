@@ -19,6 +19,7 @@ public class NHLAPI
 	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-10-02&endDate=2018-02-05&teamId=29
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/feed/live
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/content
+	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/boxscore
 	 * http://statsapi.web.nhl.com/api/v1/standings?season=20152016
 	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2016-01-31&endDate=2016-02-05&expand=schedule.teams,schedule.linescore,schedule.broadcasts.all,schedule.ticket,schedule.game.content.media.epg,schedule.radioBroadcasts,schedule.metadata,schedule.game.seriesSummary,seriesSummary.series&leaderCategories=&leaderGameTypes=R&site=en_nhl&teamId=29&gameType=&timecode=
 	 * http://statsapi.web.nhl.com/api/v1/teams
@@ -29,9 +30,23 @@ public class NHLAPI
 	 * http://statsapi.web.nhl.com/api/v1/conferences
 	 * http://statsapi.web.nhl.com/api/v1/conferences/6 <== 7 is world cup of hockey
 	 * http://statsapi.web.nhl.com/api/v1/people/8476429
-	 * http://statsapi.web.nhl.com/api/v1/people/8476429?stats=gameLog&season=20152016  <== stats can also be 'yearByYear'
+	 * http://statsapi.web.nhl.com/api/v1/people/8476429?stats=gameLog&season=20152016  <== stats can also be 'yearByYear, winLoss, byMonth, byDayOfWeek, vsDivision, vsConference, vsTeam, regularSeasonStatRankings, onPaceRegularSeason, goalsByGameSituation'
 	 * http://statsapi.web.nhl.com/api/v1/venues/someValue <== Doesn't seem to work and is always referenced with null as the value. Maybe will be set up in a future date? 
 	 * http://statsapi.web.nhl.com/api/v1/franchises/36
+	 * http://statsapi.web.nhl.com/api/v1/teams?site=en_nhl&teamId=5,4&expand=team.roster,team.stats,roster.person,person.stats&stats=statsSingleSeasonPlayoffs
+	 * http://statsapi.web.nhl.com/api/v1/tournaments/playoffs?site=en_nhl&expand=round.series,schedule.game.seriesSummary&season=20172018
+	 * http://statsapi.web.nhl.com/api/v1/game/2017030146/feed/live/diffPatch?site=en_nhl&startTimecode=20180422_221127
+	 * 
+	 * Other possibly helpful links:
+	 * 
+	 * Locales:
+	 * http://www.nhl.com/projects/ice3-stats/utility/locales/en_US/playersAndTeams.json <== Language mappings. Contains some other helpful info
+	 * http://www.nhl.com/projects/ice3-stats/utility/locales/en_US/leaders.json
+	 * 
+	 * 
+	 * Rest API?
+	 * https://github.com/nhl/link-rest
+	 * http://www.nhl.com/stats/rest/leaders
 	 *
 	 * ======== GAME ID's =========
 	 *2015030412 = game code, change this to access different games

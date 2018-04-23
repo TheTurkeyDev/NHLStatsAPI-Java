@@ -30,9 +30,14 @@ public class SerchCriteria
 		params.put("endDate", date);
 	}
 
-	public void setTeamId(int id)
+	/**
+	 * Team id's can be bunched together by separating them via commas
+	 * 
+	 * @param id
+	 */
+	public void setTeamId(String id)
 	{
-		params.put("teamId", "" + id);
+		params.put("teamId", id);
 	}
 
 	/**

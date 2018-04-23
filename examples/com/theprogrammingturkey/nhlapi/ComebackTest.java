@@ -20,7 +20,7 @@ public class ComebackTest
 		SerchCriteria criteria = new SerchCriteria();
 		criteria.setStartDate("2017-10-02");
 		criteria.setEndDate("2018-02-11");
-		criteria.setTeamId(29);
+		criteria.setTeamId("29");
 
 		System.out.println("Collecting game data...");
 		List<GameData> games = GameManager.getGames(criteria);

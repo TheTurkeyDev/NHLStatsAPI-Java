@@ -2,6 +2,8 @@
 
 This API allows users to access NHL.com's complete stats compilation and database
 
+You can also check out [this repository](https://github.com/dword4/nhlapi) for a more complete and condensed list of api endpoints
+
 ## Getting Started
 
 You can link the api to your project via Gradle or maven by finding the lastest version and linking it

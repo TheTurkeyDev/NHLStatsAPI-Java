@@ -18,7 +18,7 @@ public class Last20GamesExample
 		SerchCriteria criteria = new SerchCriteria();
 		criteria.setStartDate("2000-08-02");
 		criteria.setEndDate("2018-03-25");
-		criteria.setTeamId(29);
+		criteria.setTeamId("29");
 		criteria.setGameType("R");
 		NHLAPI.DEBUG = true;
 		System.out.println("Collecting game data...");
