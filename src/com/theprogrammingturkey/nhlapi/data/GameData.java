@@ -3,8 +3,7 @@ package com.theprogrammingturkey.nhlapi.data;
 import java.util.Date;
 import java.util.List;
 
-public class GameData
-{
+public class GameData {
 	public int gameID;
 	public String season;
 	public String gameType;
@@ -35,23 +34,19 @@ public class GameData
 	// TODO Powerplay Info
 	// TODO Intermission Info
 
-	public boolean homeTeamWon()
-	{
-		return this.homeBoxScore.teamGameStats.goals > this.awayBoxScore.teamGameStats.goals;
+	public boolean homeTeamWon() {
+		return this.homeBoxScore.goals > this.awayBoxScore.goals;
 	}
 
-	public String getFinalScore()
-	{
-		return this.homeBoxScore.teamGameStats.goals + " - " + this.awayBoxScore.teamGameStats.goals;
+	public String getFinalScore() {
+		return this.homeBoxScore.goals + " - " + this.awayBoxScore.goals;
 	}
 
-	public int getHomeGoals()
-	{
-		return this.homeBoxScore.teamGameStats.goals;
+	public int getHomeGoals() {
+		return this.homeBoxScore.goals;
 	}
-	
-	public int getAwayGoals()
-	{
-		return this.awayBoxScore.teamGameStats.goals;
+
+	public int getAwayGoals() {
+		return this.awayBoxScore.goals;
 	}
 }

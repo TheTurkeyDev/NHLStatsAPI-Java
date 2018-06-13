@@ -12,7 +12,6 @@ import com.theprogrammingturkey.nhlapi.data.BoxScoreData;
 import com.theprogrammingturkey.nhlapi.data.GoalieStatData;
 import com.theprogrammingturkey.nhlapi.data.PlayerStatData;
 import com.theprogrammingturkey.nhlapi.data.SkaterStatData;
-import com.theprogrammingturkey.nhlapi.data.TeamStatData;
 
 public class BoxScoreManager extends BaseManager
 {
@@ -24,22 +23,20 @@ public class BoxScoreManager extends BaseManager
 		data.team = TeamManager.getTeamFromID(boxScore.get("team").getAsJsonObject().get("id").getAsInt());
 
 		JsonObject teamBoxJson = boxScore.get("teamStats").getAsJsonObject().get("teamSkaterStats").getAsJsonObject();
-		TeamStatData teamStat = new TeamStatData();
-		teamStat.goals = getIntSafe(lineScore, "goals");
-		teamStat.penaltyMinutes = getIntSafe(teamBoxJson, "pim");
-		teamStat.shots = getIntSafe(teamBoxJson, "shots");
-		teamStat.powerPlayPercentage = getStringSafe(teamBoxJson, "powerPlayPercentage");
-		teamStat.powerPlayGoals = getIntSafe(teamBoxJson, "powerPlayGoals");
-		teamStat.powerPlayAttempts = getIntSafe(teamBoxJson, "powerPlayOpportunities");
-		teamStat.faceoffPercentage = getStringSafe(teamBoxJson, "faceOffWinPercentage");
-		teamStat.blockedShots = getIntSafe(teamBoxJson, "blocked");
-		teamStat.takeaways = getIntSafe(teamBoxJson, "takeaways");
-		teamStat.giveaways = getIntSafe(teamBoxJson, "giveaways");
-		teamStat.hits = getIntSafe(teamBoxJson, "hits");
-		teamStat.goaliePulled = getBooleanSafe(lineScore, "goaliePulled");
-		teamStat.powerPlay = getBooleanSafe(lineScore, "powerPlay");
-		teamStat.numSkaters = getIntSafe(lineScore, "numSkaters");
-		data.teamGameStats = teamStat;
+		data.goals = getIntSafe(lineScore, "goals");
+		data.penaltyMinutes = getIntSafe(teamBoxJson, "pim");
+		data.shots = getIntSafe(teamBoxJson, "shots");
+		data.powerPlayPercentage = getStringSafe(teamBoxJson, "powerPlayPercentage");
+		data.powerPlayGoals = getIntSafe(teamBoxJson, "powerPlayGoals");
+		data.powerPlayAttempts = getIntSafe(teamBoxJson, "powerPlayOpportunities");
+		data.faceoffPercentage = getStringSafe(teamBoxJson, "faceOffWinPercentage");
+		data.blockedShots = getIntSafe(teamBoxJson, "blocked");
+		data.takeaways = getIntSafe(teamBoxJson, "takeaways");
+		data.giveaways = getIntSafe(teamBoxJson, "giveaways");
+		data.hits = getIntSafe(teamBoxJson, "hits");
+		data.goaliePulled = getBooleanSafe(lineScore, "goaliePulled");
+		data.powerPlay = getBooleanSafe(lineScore, "powerPlay");
+		data.numSkaters = getIntSafe(lineScore, "numSkaters");
 
 		Map<Integer, PlayerStatData> statsMap = new HashMap<>();
 		List<PlayerStatData> playerStats = new ArrayList<>();

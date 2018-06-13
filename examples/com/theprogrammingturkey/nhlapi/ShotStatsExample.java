@@ -79,9 +79,9 @@ public class ShotStatsExample
 		for(GameData game : games)
 		{
 			int homeTeamID = game.homeTeam.id;
-			int homeShots = game.homeBoxScore.teamGameStats.shots;
+			int homeShots = game.homeBoxScore.shots;
 			int awayTeamID = game.awayTeam.id;
-			int awayShots = game.awayBoxScore.teamGameStats.shots;
+			int awayShots = game.awayBoxScore.shots;
 			boolean homeWon = game.homeTeamWon();
 			
 			if(homeTeamID > 55 || awayTeamID > 55)
