@@ -2,7 +2,6 @@ package com.theprogrammingturkey.nhlapi;
 
 import java.text.SimpleDateFormat;
 
-import com.theprogrammingturkey.nhlapi.managers.PlayerManager;
 import com.theprogrammingturkey.nhlapi.managers.TeamManager;
 
 public class NHLAPI
@@ -66,7 +65,6 @@ public class NHLAPI
 
 	public static void clearCache()
 	{
-		PlayerManager.clearCache();
 		TeamManager.clearCache();
 	}
 

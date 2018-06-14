@@ -74,6 +74,8 @@ public class SerchCriteria
 	 * 
 	 * @param gameType
 	 *            PR = Preseason, R = Regular season, P = Postseason
+	 *           
+	 *            For multiple, separate with commas
 	 */
 	public void setGameType(String gameType)
 	{

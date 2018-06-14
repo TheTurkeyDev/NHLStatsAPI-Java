@@ -10,7 +10,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.theprogrammingturkey.nhlapi.NHLAPI;
 import com.theprogrammingturkey.nhlapi.criteria.SerchCriteria;
+import com.theprogrammingturkey.nhlapi.data.DecisionsData;
 import com.theprogrammingturkey.nhlapi.data.GameData;
+import com.theprogrammingturkey.nhlapi.data.PeopleData;
 import com.theprogrammingturkey.nhlapi.data.PlayData;
 import com.theprogrammingturkey.nhlapi.data.PlayerData;
 import com.theprogrammingturkey.nhlapi.util.WebHelper;
@@ -18,7 +20,7 @@ import com.theprogrammingturkey.nhlapi.util.WebHelper;
 public class GameManager extends BaseManager
 {
 	private static boolean playSaving = true;
-	private static boolean playerStatSaving = true;
+	private static boolean playerSaving = true;
 
 	public static List<GameData> getGames(SerchCriteria criteria)
 	{
@@ -33,18 +35,23 @@ public class GameManager extends BaseManager
 			e.printStackTrace();
 			return new ArrayList<GameData>();
 		}
-		NHLAPI.log("Parsing data from API...");
 		List<GameData> games = new ArrayList<GameData>();
 
 		int index = 0;
+		int lastPercent = 0;
 		int total = json.get("totalGames").getAsInt();
-		for(JsonElement datesElement : json.get("dates").getAsJsonArray())
+		NHLAPI.log("Parsing " + total + " games from API...");
+		for(JsonElement datesElement : json.getAsJsonArray("dates"))
 		{
-			for(JsonElement gamesElement : datesElement.getAsJsonObject().get("games").getAsJsonArray())
+			for(JsonElement gamesElement : datesElement.getAsJsonObject().getAsJsonArray("games"))
 			{
 				index++;
 				String gameID = gamesElement.getAsJsonObject().get("gamePk").getAsString();
-				NHLAPI.log("Getting game data " + index + "/" + total);
+				if(((double)index / total) * 100 > lastPercent)
+				{
+					NHLAPI.log(lastPercent + "%");
+					lastPercent += 5;
+				}
 				try
 				{
 					games.add(getGameDataFromJson(gamesElement.getAsJsonObject(), WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live")));
@@ -62,13 +69,13 @@ public class GameManager extends BaseManager
 	{
 		GameData data = new GameData();
 
-		JsonObject gameData = json.get("gameData").getAsJsonObject();
-		JsonObject game = gameData.get("game").getAsJsonObject();
+		JsonObject gameData = json.getAsJsonObject("gameData");
+		JsonObject game = gameData.getAsJsonObject("game");
 		data.gameID = getIntSafe(game, "pk");
 		data.season = getStringSafe(game, "season");
 		data.gameType = getStringSafe(game, "type");
 
-		JsonObject date = gameData.get("datetime").getAsJsonObject();
+		JsonObject date = gameData.getAsJsonObject("datetime");
 		try
 		{
 			String dateString = getStringSafe(date, "dateTime");
@@ -79,19 +86,19 @@ public class GameManager extends BaseManager
 			e.printStackTrace();
 		}
 
-		JsonObject status = gameData.get("status").getAsJsonObject();
+		JsonObject status = gameData.getAsJsonObject("status");
 		data.gameState = getStringSafe(status, "detailedState");
 		data.startTimeTBD = getBooleanSafe(status, "startTimeTBD");
 
-		JsonObject teams = gameData.get("teams").getAsJsonObject();
-		data.homeTeam = TeamManager.getTeamDataFromJSON(teams.get("home").getAsJsonObject());
-		data.homeRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.get("teams").getAsJsonObject().get("home").getAsJsonObject().get("leagueRecord").getAsJsonObject());
-		data.awayTeam = TeamManager.getTeamDataFromJSON(teams.get("away").getAsJsonObject());
-		data.awayRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.get("teams").getAsJsonObject().get("away").getAsJsonObject().get("leagueRecord").getAsJsonObject());
+		JsonObject teams = gameData.getAsJsonObject("teams");
+		data.homeTeam = TeamManager.getTeamDataFromJSON(teams.getAsJsonObject("home"));
+		data.homeRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.getAsJsonObject("teams").getAsJsonObject("home").getAsJsonObject("leagueRecord"));
+		data.awayTeam = TeamManager.getTeamDataFromJSON(teams.getAsJsonObject("away"));
+		data.awayRecord = TeamRecordManager.getTeamRecordFromJSON(scheduleJson.getAsJsonObject("teams").getAsJsonObject("away").getAsJsonObject("leagueRecord"));
 
-		if(playerStatSaving)
+		if(playerSaving)
 		{
-			JsonObject playersObj = gameData.get("players").getAsJsonObject();
+			JsonObject playersObj = gameData.getAsJsonObject("players");
 			List<PlayerData> players = new ArrayList<>();
 			for(Entry<String, JsonElement> player : playersObj.entrySet())
 			{
@@ -102,39 +109,39 @@ public class GameManager extends BaseManager
 
 		data.gameVenue = getStringSafe(getJsonObjectSafe(gameData, "venue"), "name");
 
-		JsonObject liveData = json.get("liveData").getAsJsonObject();
+		JsonObject liveData = json.getAsJsonObject("liveData");
 
-		JsonObject plays = liveData.get("plays").getAsJsonObject();
+		JsonObject plays = liveData.getAsJsonObject("plays");
 
 		if(playSaving)
 		{
 			List<PlayData> playsList = new ArrayList<>();
-			for(JsonElement playElem : plays.get("allPlays").getAsJsonArray())
+			for(JsonElement playElem : plays.getAsJsonArray("allPlays"))
 			{
 				playsList.add(PlayManager.getPlayDataFromJSON(playElem.getAsJsonObject()));
 			}
 			data.plays = playsList;
 
 			List<PlayData> scoringPlays = new ArrayList<>();
-			for(JsonElement scoringElem : plays.get("scoringPlays").getAsJsonArray())
+			for(JsonElement scoringElem : plays.getAsJsonArray("scoringPlays"))
 			{
 				scoringPlays.add(playsList.get(scoringElem.getAsInt()));
 			}
 			data.scoringPlays = scoringPlays;
 
 			List<PlayData> penaltyPlays = new ArrayList<>();
-			for(JsonElement scoringElem : plays.get("penaltyPlays").getAsJsonArray())
+			for(JsonElement scoringElem : plays.getAsJsonArray("penaltyPlays"))
 			{
 				penaltyPlays.add(playsList.get(scoringElem.getAsInt()));
 			}
 			data.penaltyPlays = penaltyPlays;
 
-			JsonArray periodPlaysArray = plays.get("playsByPeriod").getAsJsonArray();
+			JsonArray periodPlaysArray = plays.getAsJsonArray("playsByPeriod");
 			List<List<PlayData>> playsByPeriod = new ArrayList<>();
 			for(JsonElement periodElem : periodPlaysArray)
 			{
 				List<PlayData> periodPlays = new ArrayList<>();
-				for(JsonElement playIndexes : periodElem.getAsJsonObject().get("plays").getAsJsonArray())
+				for(JsonElement playIndexes : periodElem.getAsJsonObject().getAsJsonArray("plays"))
 				{
 					periodPlays.add(playsList.get(playIndexes.getAsInt()));
 				}
@@ -145,22 +152,44 @@ public class GameManager extends BaseManager
 			data.currentPlay = PlayManager.getPlayDataFromJSON(getJsonObjectSafe(plays, "currentPlay", null));
 		}
 
-		JsonObject lineScore = liveData.get("linescore").getAsJsonObject();
+		JsonObject lineScore = liveData.getAsJsonObject("linescore");
 		data.currentPeriod = getIntSafe(lineScore, "currentPeriod");
 		data.currentPeriodOrdinal = getStringSafe(lineScore, "currentPeriodOrdinal");
 		data.currentPeriodTimeRemaining = getStringSafe(lineScore, "currentPeriodTimeRemaining");
 		data.powerPlayStrength = getStringSafe(lineScore, "powerPlayStrength");
 		data.hasShootout = getBooleanSafe(lineScore, "hasShootout");
 
-		JsonObject teamBoxScores = liveData.get("boxscore").getAsJsonObject().get("teams").getAsJsonObject();
-		JsonObject teamLineScores = lineScore.get("teams").getAsJsonObject();
+		JsonObject teamBoxScores = liveData.getAsJsonObject("boxscore").getAsJsonObject("teams");
+		JsonObject teamLineScores = lineScore.getAsJsonObject("teams");
 
-		data.homeBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("home").getAsJsonObject(), teamLineScores.get("home").getAsJsonObject());
-		data.awayBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.get("away").getAsJsonObject(), teamLineScores.get("away").getAsJsonObject());
+		data.homeBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.getAsJsonObject("home"), teamLineScores.getAsJsonObject("home"));
+		data.awayBoxScore = BoxScoreManager.getBoxScoreFromJSON(teamBoxScores.getAsJsonObject("away"), teamLineScores.getAsJsonObject("away"));
 
-		// TODO Officials
-		// TODO Decisions
-
+		data.officials = new ArrayList<PeopleData>();
+		JsonArray officialsJsonArray = liveData.getAsJsonObject("boxscore").getAsJsonArray("officials");
+		for(JsonElement officialJson : officialsJsonArray)
+		{
+			PeopleData official = new PeopleData();
+			JsonObject temp = officialJson.getAsJsonObject();
+			official.positionTitle = getStringSafe(temp, "officialType");
+			temp = getJsonObjectSafe(temp, "official");
+			official.id = getIntSafe(temp, "id");
+			official.name = getStringSafe(temp, "fullName");
+		}
+		
+		if(playerSaving)
+		{
+			JsonObject decisionJson = liveData.getAsJsonObject("decisions");
+			DecisionsData decisions = new DecisionsData();
+			decisions.winner = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "winner"));
+			decisions.loser = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "loser"));
+			decisions.firstStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "firstStar"));
+			decisions.secondStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "secondStar"));
+			decisions.thirdStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson ,"thirdStar"));
+	
+			data.decisions = decisions;
+		}
+		
 		return data;
 	}
 
@@ -174,13 +203,13 @@ public class GameManager extends BaseManager
 		playSaving = true;
 	}
 
-	public static void disablePlayerStatSaving()
+	public static void disablePlayerSaving()
 	{
-		playerStatSaving = false;
+		playerSaving = false;
 	}
 
-	public static void enablePlayerStatSaving()
+	public static void enablePlayerSaving()
 	{
-		playerStatSaving = true;
+		playerSaving = true;
 	}
 }

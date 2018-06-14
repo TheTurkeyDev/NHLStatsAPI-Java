@@ -29,6 +29,8 @@ public class GameData {
 	public String currentPeriodTimeRemaining;
 	public String powerPlayStrength;
 	public boolean hasShootout;
+	public DecisionsData decisions;
+	public List<PeopleData> officials;
 	// TODO Period Info
 	// TODO Shootout Info
 	// TODO Powerplay Info
@@ -48,5 +50,18 @@ public class GameData {
 
 	public int getAwayGoals() {
 		return this.awayBoxScore.goals;
+	}
+	
+	public TeamData getTeamFromPlayer(PlayerData player)
+	{
+		for(PlayerStatData playerStat : homeBoxScore.playerStats)
+			if(playerStat.playerID == player.id)
+				return homeTeam;
+		
+		for(PlayerStatData playerStat : awayBoxScore.playerStats)
+			if(playerStat.playerID == player.id)
+				return awayTeam;
+		
+		return null;
 	}
 }

@@ -15,7 +15,8 @@ import com.theprogrammingturkey.nhlapi.data.SkaterStatData;
 
 public class BoxScoreManager extends BaseManager
 {
-
+	private static boolean playerStatSaving = true;
+	
 	public static BoxScoreData getBoxScoreFromJSON(JsonObject boxScore, JsonObject lineScore)
 	{
 		BoxScoreData data = new BoxScoreData();
@@ -38,54 +39,67 @@ public class BoxScoreManager extends BaseManager
 		data.powerPlay = getBooleanSafe(lineScore, "powerPlay");
 		data.numSkaters = getIntSafe(lineScore, "numSkaters");
 
-		Map<Integer, PlayerStatData> statsMap = new HashMap<>();
-		List<PlayerStatData> playerStats = new ArrayList<>();
-		List<GoalieStatData> goaliesStats = new ArrayList<>();
-		List<SkaterStatData> skaterStats = new ArrayList<>();
-		List<PlayerStatData> onIcePlayers = new ArrayList<>();
-		List<PlayerStatData> scratches = new ArrayList<>();
-		List<PlayerStatData> penaltyBox = new ArrayList<>();
-
-		for(Entry<String, JsonElement> statElem : boxScore.get("players").getAsJsonObject().entrySet())
+		if(playerStatSaving)
 		{
-			PlayerStatData playerstat = PlayerStatManager.getPlayerSataFromJSON(statElem.getValue().getAsJsonObject());
-			statsMap.put(playerstat.playerID, playerstat);
-		}
-
-		playerStats.addAll(statsMap.values());
-		for(JsonElement elem : boxScore.get("goalies").getAsJsonArray())
-			goaliesStats.add((GoalieStatData) statsMap.get(elem.getAsInt()));
-		for(JsonElement elem : boxScore.get("skaters").getAsJsonArray())
-		{
-			SkaterStatData skaterdata;
-			if(statsMap.get(elem.getAsInt()) instanceof GoalieStatData)
+			Map<Integer, PlayerStatData> statsMap = new HashMap<>();
+			List<PlayerStatData> playerStats = new ArrayList<>();
+			List<GoalieStatData> goaliesStats = new ArrayList<>();
+			List<SkaterStatData> skaterStats = new ArrayList<>();
+			List<PlayerStatData> onIcePlayers = new ArrayList<>();
+			List<PlayerStatData> scratches = new ArrayList<>();
+			List<PlayerStatData> penaltyBox = new ArrayList<>();
+	
+			for(Entry<String, JsonElement> statElem : boxScore.get("players").getAsJsonObject().entrySet())
 			{
-				//TODO: Seems that goalies also get player stats and will be put into the skaters section causing a cast exception
-				//TODO: IDK?????
-				continue;
+				PlayerStatData playerstat = PlayerStatManager.getPlayerSataFromJSON(statElem.getValue().getAsJsonObject());
+				statsMap.put(playerstat.playerID, playerstat);
 			}
-			else
+	
+			playerStats.addAll(statsMap.values());
+			for(JsonElement elem : boxScore.get("goalies").getAsJsonArray())
+				goaliesStats.add((GoalieStatData) statsMap.get(elem.getAsInt()));
+			for(JsonElement elem : boxScore.get("skaters").getAsJsonArray())
 			{
-				skaterdata = (SkaterStatData) statsMap.get(elem.getAsInt());
+				SkaterStatData skaterdata;
+				if(statsMap.get(elem.getAsInt()) instanceof GoalieStatData)
+				{
+					//TODO: Seems that goalies also get player stats and will be put into the skaters section causing a cast exception
+					//TODO: IDK?????
+					continue;
+				}
+				else
+				{
+					skaterdata = (SkaterStatData) statsMap.get(elem.getAsInt());
+				}
+				skaterStats.add(skaterdata);
 			}
-			skaterStats.add(skaterdata);
+			for(JsonElement elem : boxScore.get("onIce").getAsJsonArray())
+				onIcePlayers.add(statsMap.get(elem.getAsInt()));
+			for(JsonElement elem : boxScore.get("scratches").getAsJsonArray())
+				scratches.add(statsMap.get(elem.getAsInt()));
+			for(JsonElement elem : boxScore.get("penaltyBox").getAsJsonArray())
+				penaltyBox.add(statsMap.get(elem.getAsInt()));
+	
+			data.playerStats = playerStats;
+			data.goaliesStats = goaliesStats;
+			data.skaterStats = skaterStats;
+			data.onIcePlayers = onIcePlayers;
+			data.scratches = scratches;
+			data.penaltyBox = penaltyBox;
 		}
-		for(JsonElement elem : boxScore.get("onIce").getAsJsonArray())
-			onIcePlayers.add(statsMap.get(elem.getAsInt()));
-		for(JsonElement elem : boxScore.get("scratches").getAsJsonArray())
-			scratches.add(statsMap.get(elem.getAsInt()));
-		for(JsonElement elem : boxScore.get("penaltyBox").getAsJsonArray())
-			penaltyBox.add(statsMap.get(elem.getAsInt()));
-
-		data.playerStats = playerStats;
-		data.goaliesStats = goaliesStats;
-		data.skaterStats = skaterStats;
-		data.onIcePlayers = onIcePlayers;
-		data.scratches = scratches;
-		data.penaltyBox = penaltyBox;
 
 		// TODO get coaches
 
 		return data;
+	}
+	
+	public static void disablePlayerStatSaving()
+	{
+		playerStatSaving = false;
+	}
+
+	public static void enablePlayerStatSaving()
+	{
+		playerStatSaving = true;
 	}
 }

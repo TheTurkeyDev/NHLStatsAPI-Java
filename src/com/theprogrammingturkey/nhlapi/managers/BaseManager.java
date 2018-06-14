@@ -61,7 +61,7 @@ public class BaseManager
 	public static JsonObject getJsonObjectSafe(JsonObject json, String key, JsonObject defaultValue)
 	{
 		if(json.has(key))
-			return json.get(key).getAsJsonObject();
+			return json.getAsJsonObject(key);
 		return defaultValue;
 	}
 }

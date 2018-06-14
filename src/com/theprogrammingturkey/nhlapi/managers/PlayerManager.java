@@ -39,8 +39,8 @@ public class PlayerManager extends BaseManager
 		player.rookie = getBooleanSafe(json, "rookie");
 		player.shootsCatches = getStringSafe(json, "shootsCatches");
 		player.rosterStatus = getStringSafe(json, "rosterStatus");
-		player.currentTeamID = getIntSafe(json, "currentTeamID");
-		player.primaryPosition = getPositionDataFromJSON(json.get("primaryPosition").getAsJsonObject());
+		player.currentTeamID = TeamManager.getTeamFromID(getIntSafe(getJsonObjectSafe(json, "currentTeam"), "teamID"));
+		player.primaryPosition = getPositionDataFromJSON(getJsonObjectSafe(json, "primaryPosition"));
 
 		cache.put(id, player);
 

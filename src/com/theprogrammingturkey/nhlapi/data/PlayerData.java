@@ -21,6 +21,6 @@ public class PlayerData
 	public boolean rookie;
 	public String shootsCatches;
 	public String rosterStatus;
-	public int currentTeamID;
+	public TeamData currentTeamID;
 	public PositionData primaryPosition;
 }

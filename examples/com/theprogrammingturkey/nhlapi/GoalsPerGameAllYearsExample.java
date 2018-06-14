@@ -8,6 +8,7 @@ import java.util.Map;
 
 import com.theprogrammingturkey.nhlapi.criteria.SerchCriteria;
 import com.theprogrammingturkey.nhlapi.data.GameData;
+import com.theprogrammingturkey.nhlapi.managers.BoxScoreManager;
 import com.theprogrammingturkey.nhlapi.managers.GameManager;
 
 public class GoalsPerGameAllYearsExample
@@ -30,8 +31,9 @@ public class GoalsPerGameAllYearsExample
 			criteria.setEndDate(year2 + "-05-01");
 			criteria.setGameType("R");
 
-			GameManager.disablePlayerStatSaving();
+			GameManager.disablePlayerSaving();
 			GameManager.disablePlaySaving();
+			BoxScoreManager.disablePlayerStatSaving();
 			List<GameData> games = GameManager.getGames(criteria);
 			
 			System.out.println("Retrived " + year1 + "-" + year2 + " season (" + games.size() + " games)");
