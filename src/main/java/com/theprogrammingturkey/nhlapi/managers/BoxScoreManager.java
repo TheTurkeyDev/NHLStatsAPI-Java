@@ -78,7 +78,7 @@ public class BoxScoreManager extends BaseManager
 			for(JsonElement elem : boxScore.get("scratches").getAsJsonArray())
 				scratches.add(statsMap.get(elem.getAsInt()));
 			for(JsonElement elem : boxScore.get("penaltyBox").getAsJsonArray())
-				penaltyBox.add(statsMap.get(elem.getAsInt()));
+				penaltyBox.add(statsMap.get(elem.getAsJsonObject().get("id").getAsInt()));
 	
 			data.playerStats = playerStats;
 			data.goaliesStats = goaliesStats;

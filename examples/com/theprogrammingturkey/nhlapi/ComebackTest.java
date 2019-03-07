@@ -18,8 +18,8 @@ public class ComebackTest
 	public static void testDownTwoOne()
 	{
 		SerchCriteria criteria = new SerchCriteria();
-		criteria.setStartDate("2017-10-02");
-		criteria.setEndDate("2018-02-11");
+		criteria.setStartDate("2018-10-02");
+		criteria.setEndDate("2019-03-06");
 		criteria.setTeamId("29");
 
 		System.out.println("Collecting game data...");
