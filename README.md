@@ -29,7 +29,6 @@ Maven
 Gradle
 ```
 repositories {
-	mavenCentral()
 	maven{
 		name "NHLAPI"
 		url "http://maven.theprogrammingturkey.com"
