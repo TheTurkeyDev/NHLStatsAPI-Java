@@ -24,11 +24,11 @@ public class GameManager extends BaseManager
 
 	public static List<GameData> getGames(SerchCriteria criteria)
 	{
-		NHLAPI.log("Getting games from api...");
+		NHLAPI.log("Getting games from API...");
 		JsonObject json;
 		try
 		{
-			NHLAPI.log("URL: " + "https://statsapi.web.nhl.com/api/v1/schedule" + criteria.toURLParams());
+			NHLAPI.logDebug("URL: " + "https://statsapi.web.nhl.com/api/v1/schedule" + criteria.toURLParams());
 			json = WebHelper.makeRequest("https://statsapi.web.nhl.com/api/v1/schedule" + criteria.toURLParams());
 		} catch(Exception e)
 		{
@@ -41,6 +41,8 @@ public class GameManager extends BaseManager
 		int lastPercent = 0;
 		int total = json.get("totalGames").getAsInt();
 		NHLAPI.log("Parsing " + total + " games from API...");
+		NHLAPI.log("|0%              100%|");
+		NHLAPI.logInline("[");
 		for(JsonElement datesElement : json.getAsJsonArray("dates"))
 		{
 			for(JsonElement gamesElement : datesElement.getAsJsonObject().getAsJsonArray("games"))
@@ -49,9 +51,12 @@ public class GameManager extends BaseManager
 				String gameID = gamesElement.getAsJsonObject().get("gamePk").getAsString();
 				if(((double)index / total) * 100 > lastPercent)
 				{
-					NHLAPI.log(lastPercent + "%");
+					NHLAPI.logInline("=");
 					lastPercent += 5;
+					if(lastPercent == 100)
+						NHLAPI.log("]");
 				}
+				
 				try
 				{
 					games.add(getGameDataFromJson(gamesElement.getAsJsonObject(), WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live")));

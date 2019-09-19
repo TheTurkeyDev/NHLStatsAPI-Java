@@ -70,7 +70,23 @@ public class NHLAPI
 
 	public static void log(String message)
 	{
+		System.out.println(message);
+	}
+
+	public static void logInline(String message)
+	{
+		System.out.print(message);
+	}
+
+	public static void logDebug(String message)
+	{
 		if(DEBUG)
 			System.out.println(message);
+	}
+
+	public static void logDebugInline(String message)
+	{
+		if(DEBUG)
+			System.out.print(message);
 	}
 }

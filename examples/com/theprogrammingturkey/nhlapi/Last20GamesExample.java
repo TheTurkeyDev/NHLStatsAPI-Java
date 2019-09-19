@@ -53,6 +53,6 @@ public class Last20GamesExample
 			}
 		}
 
-		System.out.println(wins + "-" + losses + " in last 20 games!");
+		System.out.println(wins + "-" + losses + " in last 20 games of the season!");
 	}
 }
