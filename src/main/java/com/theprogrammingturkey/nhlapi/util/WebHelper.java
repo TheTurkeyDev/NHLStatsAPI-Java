@@ -1,11 +1,13 @@
 package com.theprogrammingturkey.nhlapi.util;
 
+import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.theprogrammingturkey.nhlapi.NHLAPI;
 
 public class WebHelper
 {
@@ -15,12 +17,12 @@ public class WebHelper
 	{
 		HttpURLConnection con = (HttpURLConnection) new URL(link).openConnection();
 		con.setDoInput(true);
-		//con.setReadTimeout(5000);
+		// con.setReadTimeout(5000);
 		con.setRequestProperty("Connection", "keep-alive");
 		con.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:16.0) Gecko/20100101 Firefox/16.0");
 
 		((HttpURLConnection) con).setRequestMethod("GET");
-		//con.setConnectTimeout(5000);
+		// con.setConnectTimeout(5000);
 
 		int responseCode = con.getResponseCode();
 
@@ -29,6 +31,14 @@ public class WebHelper
 		else if(responseCode == HttpURLConnection.HTTP_MOVED_PERM)
 			throw new Exception();
 
-		return PARSER.parse(new InputStreamReader(con.getInputStream())).getAsJsonObject();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+		StringBuilder buffer = new StringBuilder();
+		String line;
+		while((line = reader.readLine()) != null)
+			buffer.append(line);
+
+		reader.close();
+
+		return PARSER.parse(buffer.toString()).getAsJsonObject();
 	}
 }

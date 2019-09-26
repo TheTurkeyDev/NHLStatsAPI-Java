@@ -8,8 +8,8 @@ public class NHLAPI
 {
 	public static final String BASE_URL = "https://statsapi.web.nhl.com/api/v1";
 
-	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY-MM-DD");
-	public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("YYYY-MM-DD'T'HH:mm:ss'Z'");
+	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+	public static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
 	public static boolean DEBUG = false;
 

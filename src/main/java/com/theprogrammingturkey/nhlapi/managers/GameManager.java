@@ -49,23 +49,23 @@ public class GameManager extends BaseManager
 			{
 				index++;
 				String gameID = gamesElement.getAsJsonObject().get("gamePk").getAsString();
-				if(((double)index / total) * 100 > lastPercent)
+				if(((double) index / total) * 100 > lastPercent)
 				{
 					NHLAPI.logInline("=");
 					lastPercent += 5;
-					if(lastPercent == 100)
-						NHLAPI.log("]");
 				}
-				
+
 				try
 				{
-					games.add(getGameDataFromJson(gamesElement.getAsJsonObject(), WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live")));
+					GameData game = getGameDataFromJson(gamesElement.getAsJsonObject(), WebHelper.makeRequest("http://statsapi.web.nhl.com/api/v1/game/" + gameID + "/feed/live"));
+					games.add(game);
 				} catch(Exception e)
 				{
 					e.printStackTrace();
 				}
 			}
 		}
+		NHLAPI.log("]");
 
 		return games;
 	}
@@ -181,7 +181,7 @@ public class GameManager extends BaseManager
 			official.id = getIntSafe(temp, "id");
 			official.name = getStringSafe(temp, "fullName");
 		}
-		
+
 		if(playerSaving)
 		{
 			JsonObject decisionJson = liveData.getAsJsonObject("decisions");
@@ -190,8 +190,8 @@ public class GameManager extends BaseManager
 			decisions.loser = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "loser"));
 			decisions.firstStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "firstStar"));
 			decisions.secondStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "secondStar"));
-			decisions.thirdStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson ,"thirdStar"));
-	
+			decisions.thirdStar = PlayerManager.getPlayerDataFromJSON(getJsonObjectSafe(decisionJson, "thirdStar"));
+
 			data.decisions = decisions;
 		}
 		
