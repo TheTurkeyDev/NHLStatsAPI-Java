@@ -15,6 +15,12 @@ public class NHLAPI
 
 	/**
 	 * @formatter:off
+	 * 
+	 * NOTE:
+	 * 2019-10-01: I've started to notice a new endpoint style
+	 * https://statsapi.web.nhl.com/api/v1/schedule?startDate=2019-10-02&endDate=2019-10-02&hydrate=team(leaders(categories=[points,goals,assists],gameTypes=[R])),linescore,broadcasts(all),tickets,game(content(media(epg),highlights(scoreboard)),seriesSummary),radioBroadcasts,metadata,decisions,scoringplays,seriesSummary(series)&site=en_nhl&teamId=&gameType=&timecode=
+	 * No idea if this will be new and used in the future or what...
+	 * 
 	 * http://statsapi.web.nhl.com/api/v1/schedule?startDate=2017-10-02&endDate=2018-02-05&teamId=29
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/feed/live
 	 * http://statsapi.web.nhl.com/api/v1/game/2017020798/content

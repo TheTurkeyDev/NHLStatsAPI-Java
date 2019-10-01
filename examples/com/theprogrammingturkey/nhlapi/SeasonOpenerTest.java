@@ -1,6 +1,8 @@
 package com.theprogrammingturkey.nhlapi;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ public class SeasonOpenerTest
 
 	public static void testSeasonOpenerExample()
 	{
+		NHLAPI.DEBUG = true;
 		SerchCriteria criteria = new SerchCriteria();
 		criteria.setStartDate("2000-10-01");
 		criteria.setEndDate("2019-05-01");
@@ -64,12 +67,11 @@ public class SeasonOpenerTest
 			GameData homeGame = homeFirstGames.get(season);
 			GameData awayGame = awayFirstGames.get(season);
 			System.out.println(season.substring(0, 4) + "-" + season.substring(4) + ":");
-			System.out.println("\tHome: " + homeGame.homeTeam.name + "(" + homeGame.getHomeGoals() + ") vs " + homeGame.awayTeam.name + "(" + homeGame.getAwayGoals() + ")");
-			System.out.println("\tAway: " + awayGame.homeTeam.name + "(" + homeGame.getHomeGoals() + ") vs " + awayGame.awayTeam.name + "(" + homeGame.getAwayGoals() + ")");
 
 			if(homeGame.date.before(awayGame.date))
 			{
-
+				System.out.println("\tHome(Season Opener): " + homeGame.homeTeam.name + "(" + homeGame.getHomeGoals() + ") vs " + homeGame.awayTeam.name + "(" + homeGame.getAwayGoals() + ")");
+				System.out.println("\tAway: " + awayGame.homeTeam.name + "(" + homeGame.getHomeGoals() + ") vs " + awayGame.awayTeam.name + "(" + homeGame.getAwayGoals() + ")");
 				Record record = firstGameVsRecord.computeIfAbsent(homeGame.awayTeam.name, key -> new Record());
 				if(homeGame.homeTeamWon())
 				{
@@ -84,6 +86,8 @@ public class SeasonOpenerTest
 			}
 			else
 			{
+				System.out.println("\tHome: " + homeGame.homeTeam.name + "(" + homeGame.getHomeGoals() + ") vs " + homeGame.awayTeam.name + "(" + homeGame.getAwayGoals() + ")");
+				System.out.println("\tAway(Season Opener): " + awayGame.homeTeam.name + "(" + homeGame.getHomeGoals() + ") vs " + awayGame.awayTeam.name + "(" + homeGame.getAwayGoals() + ")");
 				Record record = firstGameVsRecord.computeIfAbsent(awayGame.homeTeam.name, key -> new Record());
 				if(homeGame.homeTeamWon())
 				{
@@ -122,13 +126,16 @@ public class SeasonOpenerTest
 		}
 
 		System.out.println("==============Stats=================");
-		System.out.println("Season Opener Record" + firstGameRecord.wins + "-" + firstGameRecord.losses);
-		System.out.println("Home Opener Record" + homeGameRecord.wins + "-" + homeGameRecord.losses);
-		System.out.println("Away Opener Record" + awayGameRecord.wins + "-" + awayGameRecord.losses);
+		System.out.println("Season Opener Record: " + firstGameRecord.wins + "-" + firstGameRecord.losses);
+		System.out.println("Home Opener Record: " + homeGameRecord.wins + "-" + homeGameRecord.losses);
+		System.out.println("Away Opener Record: " + awayGameRecord.wins + "-" + awayGameRecord.losses);
 
 		System.out.println("");
 		System.out.println("Season Opener Record vs Opponents:");
-		for(String team : firstGameVsRecord.keySet())
+		List<String> keys = new ArrayList<>();
+		keys.addAll(firstGameVsRecord.keySet());
+		Collections.sort(keys);
+		for(String team : keys)
 		{
 			Record record = firstGameVsRecord.get(team);
 			System.out.println("vs " + team + ": " + record.wins + "-" + record.losses);
@@ -136,7 +143,10 @@ public class SeasonOpenerTest
 
 		System.out.println("");
 		System.out.println("Home Opener Record vs Opponents:");
-		for(String team : homeGameVsRecord.keySet())
+		keys = new ArrayList<>();
+		keys.addAll(homeGameVsRecord.keySet());
+		Collections.sort(keys);
+		for(String team : keys)
 		{
 			Record record = homeGameVsRecord.get(team);
 			System.out.println("vs " + team + ": " + record.wins + "-" + record.losses);
@@ -144,10 +154,13 @@ public class SeasonOpenerTest
 
 		System.out.println("");
 		System.out.println("Away Opener Record vs Opponents:");
-		for(String team : awayGameVsRecord.keySet())
+		keys = new ArrayList<>();
+		keys.addAll(awayGameVsRecord.keySet());
+		Collections.sort(keys);
+		for(String team : keys)
 		{
 			Record record = awayGameVsRecord.get(team);
-			System.out.println("vs" + team + ": " + record.wins + "-" + record.losses);
+			System.out.println("@ " + team + ": " + record.wins + "-" + record.losses);
 		}
 
 	}
