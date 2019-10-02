@@ -201,7 +201,7 @@ public class SeasonOpenerTest
 		for(String team : keys)
 		{
 			Record record = homeGameVsRecord.get(team);
-			System.out.println("vs " + team + ": " + record.wins + "-" + record.losses + "-" + firstGameRecord.ties);
+			System.out.println("vs " + team + ": " + record.wins + "-" + record.losses + "-" + record.ties);
 		}
 
 		System.out.println("");
@@ -212,7 +212,7 @@ public class SeasonOpenerTest
 		for(String team : keys)
 		{
 			Record record = awayGameVsRecord.get(team);
-			System.out.println("@ " + team + ": " + record.wins + "-" + record.losses + "-" + firstGameRecord.ties);
+			System.out.println("@ " + team + ": " + record.wins + "-" + record.losses + "-" + record.ties);
 		}
 
 	}
