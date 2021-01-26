@@ -56,7 +56,7 @@ I try to follow and use [SemVer](http://semver.org/) for versioning. For the ver
 
 ## Authors
 
-* **Ryan Turk (A.K.A Turkey2349)** - *Initial work* - [Github](https://github.com/Turkey2349)
+* **Ryan Turk (A.K.A TheTurkeyDev)** - *Initial work* - [Github](https://github.com/theturkeydev)
 
 ## License
 
